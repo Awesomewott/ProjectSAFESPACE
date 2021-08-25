@@ -851,7 +851,7 @@ namespace ECM.Controllers
                 z = Input.GetAxisRaw("Vertical")
             };
 
-            jump = Input.GetButton("Jump");
+            //jump = Input.GetButton("Jump");
 
             crouch = Input.GetKey(KeyCode.C);
         }
@@ -949,7 +949,7 @@ namespace ECM.Controllers
 
             // Perform character animation (if not paused)
 
-            Animate();
+            //Animate();
         }
         
         #endregion
