@@ -6,11 +6,12 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [Range(0, 20)] public float speed = 1;
+    [Range(0, 20)] public float jump = 1;
+    [Range(-20, 20)] public float gravity = -9.81f;
     public Animator animator;
-    public eSpace space = eSpace.Object;
-    public eMovement movement = eMovement.Tank;
+    public eSpace space = eSpace.World;
+    public eMovement movement = eMovement.Free;
     public float turnRate = 3;
-    public bool isDead = false;
 
     public enum eSpace
     {
@@ -29,13 +30,14 @@ public class Character : MonoBehaviour
     CharacterController characterController;
     Rigidbody rb;
 
+    bool onGround = false;
     Vector3 inputDirection = Vector3.zero;
     Vector3 velocity = Vector3.zero;
+
     Transform cameraTransform;
 
-    private void Start()
+    void Start()
     {
-        velocity *= speed;
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
         cameraTransform = Camera.main.transform;
@@ -43,15 +45,22 @@ public class Character : MonoBehaviour
 
     void Update()
     {
-        //if (animator.GetBool("Death") || GameSession.Instance.gameWon) return;
+        inputDirection.x = Input.GetAxis("Horizontal");
+        inputDirection.z = Input.GetAxis("Vertical");
+
+
+        //if (animator.GetBool("Death")) return;
+
+        onGround = characterController.isGrounded;
+        if (onGround && velocity.y < 0)
+        {
+            velocity.y = 0f;
+        }
 
         // ***
-
         Quaternion orientation = Quaternion.identity;
         switch (space)
         {
-            case eSpace.World:
-                break;
             case eSpace.Camera:
                 Vector3 forward = cameraTransform.forward;
                 forward.y = 0;
@@ -62,16 +71,6 @@ public class Character : MonoBehaviour
                 break;
             default:
                 break;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Rotate(Vector3.up, (-90 * turnRate * Time.deltaTime));
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(Vector3.up, (90 * turnRate * Time.deltaTime));
         }
 
         Vector3 direction = Vector3.zero;
@@ -95,47 +94,42 @@ public class Character : MonoBehaviour
             default:
                 break;
         }
-
         // ***
-        inputDirection = Vector3.zero;
-
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputDirection = Vector3.forward;
-            characterController.Move(direction * speed * Time.deltaTime);
-            characterController.Move(velocity * Time.deltaTime);
-        }
-        
+        Debug.Log(direction);
+        characterController.Move(direction * speed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnRate * Time.deltaTime);
 
-        // Animator
-        animator.SetFloat("Speed", inputDirection.magnitude);
+        // animator
+        //animator.SetFloat("Speed", inputDirection.magnitude);
+        //animator.SetBool("OnGround", onGround);
+        //animator.SetFloat("VelocityY", velocity.y);
+
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Ghost"))
-        {
-            OnDeath();
-        }
+    //public void OnJump()
+    //{
+    //    if (onGround)
+    //    {
+    //        velocity.y += jump;
+    //    }
+    //}
 
-        if (other.gameObject.CompareTag("Win"))
-        {
-            inputDirection = Vector3.zero;
-            velocity = Vector3.zero;
-            animator.SetFloat("Speed", inputDirection.magnitude);
+    //public void OnPunch()
+    //{
+    //    animator.SetTrigger("Punch");
+    //}
 
-            //GameSession.Instance.gameWon = true;
-        }
-    }
+    //public void OnThrow()
+    //{
+    //    animator.SetTrigger("Throw");
+    //}
 
-    public void OnDeath()
-    {
-        inputDirection = Vector3.zero;
-        velocity = Vector3.zero;
-        animator.SetFloat("Speed", inputDirection.magnitude);
-
-        isDead = true;
-        animator.SetBool("Death", isDead);
-    }
+    //public void OnMovement(InputValue input)
+    //{
+    //    Vector2 v2 = input.Get<Vector2>();
+    //    inputDirection.x = v2.x;
+    //    inputDirection.z = v2.y;
+    //}
 }
