@@ -95,7 +95,7 @@ public class Character : MonoBehaviour
                 break;
         }
         // ***
-        Debug.Log(direction);
+        //Debug.Log(direction);
         characterController.Move(direction * speed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnRate * Time.deltaTime);
 
