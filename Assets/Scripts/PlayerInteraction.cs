@@ -28,6 +28,7 @@ public class PlayerInteraction : MonoBehaviour
             if(interactable != null)
             {
                 HandleInteraction(interactable);
+                //interactionText.text = interactable.
             }
         }
         
