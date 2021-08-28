@@ -20,18 +20,23 @@ public class PlayerInteraction : MonoBehaviour
         Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
         RaycastHit hit;
 
-        if(Physics.Raycast(ray, out hit, interactDistance))
+        bool successfulHit = false;
+
+        if (Physics.Raycast(ray, out hit, interactDistance))
         {
             Debug.Log("I am found");
             Interactable interactable = hit.collider.GetComponent<Interactable>();
 
-            if(interactable != null)
+            if (interactable != null)
             {
                 HandleInteraction(interactable);
-                //interactionText.text = interactable.
+                interactionText.text = interactable.GetDescription();
+                successfulHit = true;
             }
         }
-        
+
+        if (!successfulHit) interactionText.text = "";
+
     }
 
     void HandleInteraction(Interactable interactable)

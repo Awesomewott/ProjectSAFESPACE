@@ -6,6 +6,6 @@ public abstract class Interactable : MonoBehaviour
 {
 
     public abstract void Interact();
-    public abstract void GetDescription();
+    public abstract string GetDescription();
     
 }
