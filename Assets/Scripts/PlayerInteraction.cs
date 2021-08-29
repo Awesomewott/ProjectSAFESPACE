@@ -9,6 +9,10 @@ public class PlayerInteraction : MonoBehaviour
 
     public TMPro.TextMeshProUGUI interactionText;
     private Camera cam;
+    bool checkIsThere;
+
+    [SerializeField]
+    MusicBoxInteract musicInteract;
 
     void Start()
     {
@@ -32,8 +36,18 @@ public class PlayerInteraction : MonoBehaviour
                 HandleInteraction(interactable);
                 interactionText.text = interactable.GetDescription();
                 successfulHit = true;
+                if (interactable.tag == "Music")
+                {
+                    checkIsThere = true;
+                }
+
+                else checkIsThere = false;
             }
         }
+
+            
+
+        
 
         if (!successfulHit) interactionText.text = "";
 
@@ -45,6 +59,19 @@ public class PlayerInteraction : MonoBehaviour
         {
             Debug.Log(interactable);
             interactable.Interact();
+        }
+
+        if(checkIsThere == true)
+        {
+            if(Input.GetKeyDown(KeyCode.Q) == true)
+            {
+                musicInteract.changeSong(-1);
+            }
+
+            else if(Input.GetKeyDown(KeyCode.E) == true)
+            {
+                musicInteract.changeSong(1);
+            }
         }
     }
 }
