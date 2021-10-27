@@ -42,3 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: HUD
+    uniqueID: 1236074357
+    locked: 0
+  - name: Dialogs
+    uniqueID: 1060917353
+    locked: 0
+  - name: Reticle
+    uniqueID: 3604692579
+    locked: 0
