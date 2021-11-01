@@ -20,7 +20,7 @@ public class LightInteract : Interactable
 
     public override string GetDescription()
     {
-        if (light.enabled) return "Press [I] to turn <color=red>off</color> the light.";
+        if (light.enabled) return "Press <color=purple>[A]</color> to turn <color=red>off</color> the light.";
         return "Press [I] to turn <color=green>on</color> the light.";
     }
     public override void Interact()

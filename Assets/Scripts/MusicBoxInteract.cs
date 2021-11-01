@@ -26,8 +26,8 @@ public class MusicBoxInteract : Interactable
 
     public override string GetDescription()
     {
-        if (audioSources[index].enabled) return "Press <color=purple>[I]</color> to turn <color=red>off</color> the Music Player. Press Q or E to Change Music.";
-        return "Press <color=purple>[I]</color> to turn <color=green>on</color> the Music Plyer.";
+        if (audioSources[index].enabled) return "Press <color=purple>[A]</color> to turn <color=red>off</color> the Music Player. Press X or Y to Change Music.";
+        return "Press <color=purple>[A]</color> to turn <color=green>on</color> the Music Player.";
     }
 
     public override void Interact()

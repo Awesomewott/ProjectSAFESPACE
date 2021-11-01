@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class PlayerInteraction : MonoBehaviour
@@ -55,6 +56,13 @@ public class PlayerInteraction : MonoBehaviour
 
     void HandleInteraction(Interactable interactable)
     {
+        
+        if(OVRInput.GetDown(OVRInput.Button.One) == true)
+        {
+            Debug.Log(interactable);
+            interactable.Interact();
+        }
+
         if(Input.GetKeyDown(KeyCode.I) == true)
         {
             Debug.Log(interactable);
@@ -69,6 +77,19 @@ public class PlayerInteraction : MonoBehaviour
             }
 
             else if(Input.GetKeyDown(KeyCode.E) == true)
+            {
+                musicInteract.changeSong(1);
+            }
+        }
+
+        if (checkIsThere == true)
+        {
+            if (OVRInput.GetDown(OVRInput.Button.Three) == true)
+            {
+                musicInteract.changeSong(-1);
+            }
+
+            else if (OVRInput.GetDown(OVRInput.Button.Four) == true)
             {
                 musicInteract.changeSong(1);
             }
